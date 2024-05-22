@@ -27,36 +27,41 @@ class NetworkModule {
 
 
     @Provides
-    @Singleton
-    @Named("MainSite")
-    fun provideRetrofit(
-        okHttpClient: OkHttpClient,
-        moshiConverterFactory: MoshiConverterFactory
-    ): Retrofit {
-
-        return Retrofit.Builder().addConverterFactory(moshiConverterFactory)
-            .baseUrl(BuildConfig.BASE_URL)
-            .client(okHttpClient)
-            .build()
+    fun provideJsonPlaceHolderSite(@Named("JsonPlaceHolderSite") retrofit: Retrofit): JsonPlaceHolderApi {
+        return retrofit.create(JsonPlaceHolderApi::class.java)
     }
 
     @Provides
     @Singleton
-    @Named("FatherOfApps")
-    fun provideRetrofitNewYorkTime(
+    @Named("JsonPlaceHolderSite")
+    fun provideRetrofit(
         okHttpClient: OkHttpClient,
-        moshiConverterFactory: MoshiConverterFactory
+        moshiConverterFactory: MoshiConverterFactory,
     ): Retrofit {
+
         return Retrofit.Builder().addConverterFactory(moshiConverterFactory)
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL_JSON_PLACE_HOLDER)
             .client(okHttpClient)
             .build()
     }
+
+//    @Provides
+//    @Singleton
+//    @Named("FatherOfApps")
+//    fun provideRetrofitNewYorkTime(
+//        okHttpClient: OkHttpClient,
+//        moshiConverterFactory: MoshiConverterFactory
+//    ): Retrofit {
+//        return Retrofit.Builder().addConverterFactory(moshiConverterFactory)
+//            .baseUrl(BuildConfig.BASE_URL)
+//            .client(okHttpClient)
+//            .build()
+//    }
 
     @Provides
     @Singleton
     fun provideOKHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient {
         val builder = OkHttpClient.Builder()
 
